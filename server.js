@@ -10,7 +10,7 @@ dotenv.config();
 const app=express();
 app.use(express.json());
 app.use("/auth",authRoutes);
-// app.use("/subscriptions",subscriptionRoutes)
+app.use("/subscriptions",subscriptionRoutes)
 
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("mongoDB connecté"))

@@ -11,6 +11,7 @@ const app=express();
 app.use(express.json());
 app.use("/auth",authRoutes);
 app.use("/subscriptions",subscriptionRoutes)
+app.use("/admin",adminRoutes)
 
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("mongoDB connecté"))
@@ -19,5 +20,5 @@ mongoose.connect(process.env.MONGO_URI)
 const PORT=process.env.PORT || 5000;
 
 app.listen(PORT,()=>{
-    console.log(`server runnig on port${PORT}`)
+    console.log(`server runnig on port ${PORT}`)
 })

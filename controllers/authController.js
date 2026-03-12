@@ -51,7 +51,7 @@ export const login = async (req,res)=>{
       return res.status(400).json({message:"Mot de passe incorrect"});
     }
 
-    const token = jwt.sign(
+    const token = jwt.sign(  //est une fonction de la bibliothèque jsonwebtoken,Elle sert à générer un token JWT
       {id:user._id, role:user.role},
       process.env.JWT_SECRET,
       {expiresIn:"1d"}

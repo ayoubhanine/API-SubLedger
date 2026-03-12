@@ -18,6 +18,6 @@ export const getAllSubscriptions=async(req,res)=>{
         res.json(subscriptions)
     }
     catch(error){
-        res.status(500).json({message:"erreur serveurrr"})
+        res.status(500).json({message:"erreur serveur"})
     }
 };

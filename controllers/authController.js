@@ -13,9 +13,9 @@ export const register = async (req,res) => {
     if(userExists){
       return res.status(400).json({message:"Email déjà utilisé"});
     }
-
-    const hashedPassword = await bcrypt.hash(password,10);
-
+  // Hachage du mot de passe pour sécuriser les données
+    const hashedPassword = await bcrypt.hash(password,10); //le 10 représente le nombre de "salt rounds" (ou itérations de salage) utilisés par bcrypt pour sécuriser ton mot de passe.
+    //creation de lutilisateur
     const user = new User({
       name,
       email,
@@ -23,7 +23,7 @@ export const register = async (req,res) => {
       role
 
     });
-
+    // Sauvegarde dans la base de données
     await user.save();
 
     res.status(201).json({message:"Utilisateur créé"});
@@ -50,7 +50,7 @@ export const login = async (req,res)=>{
     if(!match){
       return res.status(400).json({message:"Mot de passe incorrect"});
     }
-
+  //  Génération du token JWT
     const token = jwt.sign(  //est une fonction de la bibliothèque jsonwebtoken,Elle sert à générer un token JWT
       {id:user._id, role:user.role},
       process.env.JWT_SECRET,

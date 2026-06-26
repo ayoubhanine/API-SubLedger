@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
-    "dev": "nodemon server.js"
-  },
+ "scripts": {
+  "dev": "nodemon server.js",
+  "start": "node server.js",
+  "test": "jest"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayoubhanine/API-SubLedger.git"

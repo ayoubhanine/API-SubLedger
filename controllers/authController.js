@@ -1,66 +1,44 @@
-import User from "../models/User.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { registerUser,loginUser } from "../services/authService.js";
 
-export const register = async (req,res) => {
-
+export const register = async (req, res) => {
   try {
+    await registerUser(req.body);
 
-    const {name,email,password,role} = req.body;
-
-    const userExists = await User.findOne({email});
-
-    if(userExists){
-      return res.status(400).json({message:"Email déjà utilisé"});
-    }
-  // Hachage du mot de passe pour sécuriser les données
-    const hashedPassword = await bcrypt.hash(password,10); //le 10 représente le nombre de "salt rounds" (ou itérations de salage) utilisés par bcrypt pour sécuriser ton mot de passe.
-    //creation de lutilisateur
-    const user = new User({
-      name,
-      email,
-      password: hashedPassword,
-      role
-
+    res.status(201).json({
+      message: "Utilisateur créé",
     });
-    // Sauvegarde dans la base de données
-    await user.save();
+  } catch (error) {
+    if (
+      error.message === "Email déjà utilisé"
+    ) {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
 
-    res.status(201).json({message:"Utilisateur créé"});
-
-  } catch(error){
-    res.status(500).json({error:"Erreur serveur"});
+    res.status(500).json({
+      error: "Erreur serveur",
+    });
   }
-
 };
-export const login = async (req,res)=>{
 
-  try{
+export const login = async (req, res) => {
+  try {
+    const token = await loginUser(req.body);
 
-    const {email,password} = req.body;
-
-    const user = await User.findOne({email});
-
-    if(!user){
-      return res.status(400).json({message:"Email invalide"});
+    res.json({ token });
+  } catch (error) {
+    if (
+      error.message === "Email invalide" ||
+      error.message === "Mot de passe incorrect"
+    ) {
+      return res.status(400).json({
+        message: error.message,
+      });
     }
 
-    const match = await bcrypt.compare(password,user.password);
-
-    if(!match){
-      return res.status(400).json({message:"Mot de passe incorrect"});
-    }
-  //  Génération du token JWT
-    const token = jwt.sign(  //est une fonction de la bibliothèque jsonwebtoken,Elle sert à générer un token JWT
-      {id:user._id, role:user.role},
-      process.env.JWT_SECRET,
-      {expiresIn:"1d"}
-    );
-
-    res.json({token});
-
-  }catch(error){
-    res.status(500).json({error:"Erreur serveur"});
+    res.status(500).json({
+      error: "Erreur serveur",
+    });
   }
-
 };

@@ -1,13 +1,14 @@
 {
   "name": "api-subledger",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "server.js",
- "scripts": {
-  "dev": "nodemon server.js",
-  "start": "node server.js",
-  "test": "jest"
-},
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayoubhanine/API-SubLedger.git"
@@ -29,6 +30,10 @@
     "mongoose": "^9.2.4"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "@jest/globals": "^30.4.1",
+    "cross-env": "^10.1.0",
+    "jest": "^30.4.2",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
   }
 }

@@ -3,13 +3,11 @@ name: Node.js CI
 on:
   push:
     branches:
-      - main
-      - master
+      - docker-tests
 
   pull_request:
     branches:
-      - main
-      - master
+      - docker-tests
 
 jobs:
   test:
